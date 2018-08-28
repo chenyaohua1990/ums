@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
@@ -26,12 +27,7 @@ public class UserServiceImp implements UserService {
     @Autowired
     private TUserMapper userMapper;
 
-    @Override
-    @Cacheable(value = "user",key="'user_'+#user.email",unless="#result == null")
-    public TUser login(TUser user) {
-        System.out.println("第人次");
-        return user;
-    }
+
 
     @Override
     public String translate(String query) {
@@ -58,5 +54,15 @@ public class UserServiceImp implements UserService {
             e.printStackTrace();
         }
         return query;
+    }
+
+    @Override
+    @Cacheable(key = "'user_email_'+#email",value = "user" ,unless = "#result==null")
+    public TUser findByEmail(String email) {
+        Assert.notNull(email,"Email不能为空！");
+        TUser tuser=new TUser();
+        tuser.setEmail(email);
+        TUser byEmail = userMapper.findByEmail(tuser);
+        return byEmail;
     }
 }

@@ -8,6 +8,8 @@ import java.util.Date;
 public class TRole {
     @ApiModelProperty(name = "roleId",value = "角色表id",dataType = "Long",required = false,example = "1")
     private Long roleId;
+    @ApiModelProperty(name = "parentRoleId",value = "上级角色id",dataType = "Long",required = false,example = "1")
+    private Long parentRoleId;
     @ApiModelProperty(name = "roleName",value = "角色名称",dataType = "String",required = false,example = "主管")
     private String roleName;
     @ApiModelProperty(name = "createDate",value = "创建时间",dataType = "Date",required = false,example = "2018-09-12 20:30:22")
@@ -23,6 +25,14 @@ public class TRole {
 
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
+    }
+
+    public Long getParentRoleId() {
+        return parentRoleId;
+    }
+
+    public void setParentRoleId(Long parentRoleId) {
+        this.parentRoleId = parentRoleId;
     }
 
     public String getRoleName() {
