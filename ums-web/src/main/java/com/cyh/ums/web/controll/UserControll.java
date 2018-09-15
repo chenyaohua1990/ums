@@ -4,9 +4,20 @@ import com.alibaba.fastjson.JSON;
 import com.cyh.ums.domain.TUser;
 import com.cyh.ums.dto.Result;
 import com.cyh.ums.serviceI.UserService;
+import com.cyh.ums.util.MD5Utils;
 import com.cyh.ums.validator.UserLoginCheck;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -20,6 +31,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Set;
 
 @RestController
@@ -27,36 +39,25 @@ import java.util.Set;
 @RequestMapping(value = "user")
 public class UserControll {
 
+    private static final Logger LOGGER= LoggerFactory.getLogger(UserControll.class);
     @Autowired
     private UserService userService;
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
 
-    @PutMapping(value = "login")
+    @PostMapping(value = "login")
     @ApiOperation(value = "用户登录",tags = {"用户接口类"})
-    public ResponseEntity<String> login(@RequestBody /*@Validated(value = {UserLoginCheck.class})*/ TUser user, @ApiIgnore HttpServletRequest request){
-
-
-        ValueOperations<String, Object> stringObjectValueOperations = redisTemplate.opsForValue();
-        //字符串set
-        stringObjectValueOperations.set("333", JSON.toJSONString(user));
-        //字符串读取缓存
-        System.out.println(stringObjectValueOperations.get("333"));;
-        //获取全部键值
-        Set<String> keys = redisTemplate.keys("*");
-        keys.forEach(x->{
-            System.out.println(x);
-        });
-        //判断是否存在相应的键
-        Boolean aBoolean = redisTemplate.hasKey("333");
-        Boolean user1 = redisTemplate.hasKey("user");
-        System.out.println(String.format("%1b:%2b",aBoolean,user1));
-
-        //删除对应键值
-        Boolean delete = redisTemplate.delete("333");
-        System.out.println(String.format("是否删除成功：%b",delete));
-
-        return ResponseEntity.ok().body("SUCCESS");
+    public Result<String> login(@Validated(value = {UserLoginCheck.class}) @RequestBody TUser user){
+        Result<String> result=new Result<>();
+        try{
+            Subject subject = SecurityUtils.getSubject();
+            UsernamePasswordToken authenticationToken=new UsernamePasswordToken(user.getEmail(), user.getPassword());
+            subject.login(authenticationToken);
+            result.setData("SUCCESS");
+        }catch (Exception e){
+            result.setData("FAIL");
+        }
+        return   result;
     }
 
     @GetMapping(value = "translate")
@@ -66,4 +67,10 @@ public class UserControll {
         return translate;
     }
 
+    @PostMapping(value = "createUser")
+    @ApiOperation(value = "创建用户",tags = {"用户接口类"})
+    public Boolean createUser(@Validated(value = {UserLoginCheck.class}) @RequestBody TUser user){
+        TUser i=userService.createUser(user);
+        return ObjectUtils.isEmpty(i);
+    }
 }

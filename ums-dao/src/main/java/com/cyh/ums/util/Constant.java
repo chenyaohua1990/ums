@@ -8,6 +8,8 @@ public interface Constant {
      * 百度翻译密匙
      */
     String ENCRYPTION_KEY="2WadicpGNgXm5xmyxgag";
-
-
+    /**
+     * 请求失败
+     */
+    Integer FAIL=1;
 }

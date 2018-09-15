@@ -1,5 +1,6 @@
 package com.cyh.ums;
 
+import org.apache.shiro.spring.boot.autoconfigure.ShiroAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,7 @@ import javax.management.ValueExp;
 @EnableSwagger2
 @SpringBootApplication
 @ComponentScan("com.cyh.ums")
-@EnableAutoConfiguration(exclude = {QuartzAutoConfiguration.class})
+@EnableAutoConfiguration(/*exclude = {QuartzAutoConfiguration.class,ShiroAutoConfiguration.class}*/)
 public class UmsWebApplication {
 
 	public static void main(String[] args) {

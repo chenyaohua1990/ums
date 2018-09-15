@@ -34,6 +34,18 @@ public class TUser implements Serializable{
     @ApiModelProperty(name = "updateDate",value = "最后更新时间",dataType = "Date",required = false,example = "2018-09-12 20:30:22")
     private Date updateDate;
 
+    public TUser() {
+    }
+
+    public TUser( @NotBlank(message = "用户名不能为空", groups = {UserLoginCheck.class}) @Size(min = 1, max = 30) String userName, @NotBlank(message = "用户密码不能为空", groups = {UserLoginCheck.class}) @Pattern(regexp = "^([A-Z]|[a-z]|[0-9]|[`~!@#$%^&*()+=|{}':;',\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“'。，、？]){6,20}$", message = "用户密码必须为6-20个英文字母或符号字符", groups = {UserLoginCheck.class}) String password, @NotBlank(message = "用户邮箱不能为空", groups = {UserLoginCheck.class}) @Size(min = 3, max = 40, message = "邮箱地址不小于3，不大于40个字符", groups = {UserLoginCheck.class}) @Email(message = "必须是一个邮箱地址", groups = {UserLoginCheck.class}) String email, String salt, Date createDate, Date updateDate) {
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.salt = salt;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+    }
+
     public Long getUserId() {
         return userId;
     }

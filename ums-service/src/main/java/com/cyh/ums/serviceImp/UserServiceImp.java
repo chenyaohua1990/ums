@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -19,6 +20,8 @@ import org.springframework.util.ObjectUtils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -64,5 +67,15 @@ public class UserServiceImp implements UserService {
         tuser.setEmail(email);
         TUser byEmail = userMapper.findByEmail(tuser);
         return byEmail;
+    }
+
+    @Override
+    @Cacheable(key = "'user_email_'+#email",value = "user" ,unless = "#result==null")
+    public TUser createUser(TUser user) {
+        long l = Math.abs(ThreadLocalRandom.current().nextLong()+10000);
+        String encode = MD5Utils.encode(user.getPassword()+l);
+        TUser us=new TUser(user.getUserName(),encode,user.getEmail(),String.valueOf(l),new Date(),new Date());
+        userMapper.insert(us);
+        return us;
     }
 }

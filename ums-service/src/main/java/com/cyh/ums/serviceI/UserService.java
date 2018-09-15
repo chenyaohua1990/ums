@@ -7,4 +7,6 @@ public interface UserService {
     String translate(String query);
 
     TUser findByEmail(String principal);
+
+    TUser createUser(TUser user);
 }
