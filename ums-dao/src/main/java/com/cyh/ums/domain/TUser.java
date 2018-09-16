@@ -1,5 +1,6 @@
 package com.cyh.ums.domain;
 
+import com.cyh.ums.validator.CreateUser;
 import com.cyh.ums.validator.UserLoginCheck;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,17 +15,17 @@ import java.util.Date;
 public class TUser implements Serializable{
     @ApiModelProperty(name = "userId",value = "用户表id",dataType = "Long",required = false,example = "1")
     private Long userId;
-    @NotBlank(message = "用户名不能为空",groups = {UserLoginCheck.class})
+    @NotBlank(message = "用户名不能为空",groups = {CreateUser.class})
     @Size(min = 1,max=30)
     @ApiModelProperty(name = "userName",value = "用户名称",dataType = "String",required = false,example = "CYH")
     private String userName;
-    @NotBlank(message = "用户密码不能为空",groups = {UserLoginCheck.class})
+    @NotBlank(message = "用户密码不能为空",groups = {CreateUser.class,UserLoginCheck.class})
     @Pattern(regexp = "^([A-Z]|[a-z]|[0-9]|[`~!@#$%^&*()+=|{}':;',\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“'。，、？]){6,20}$",message = "用户密码必须为6-20个英文字母或符号字符",groups = {UserLoginCheck.class})
     @ApiModelProperty(name = "password",value = "用户密码",dataType = "String",required = false,example = "123456")
     private String password;
-    @NotBlank(message = "用户邮箱不能为空",groups = {UserLoginCheck.class})
-    @Size(min=3,max = 40,message = "邮箱地址不小于3，不大于40个字符",groups = {UserLoginCheck.class})
-    @Email(message = "必须是一个邮箱地址",groups = {UserLoginCheck.class})
+    @NotBlank(message = "用户邮箱不能为空",groups = {CreateUser.class,UserLoginCheck.class})
+    @Size(min=3,max = 40,message = "邮箱地址不小于3，不大于40个字符",groups = {CreateUser.class,UserLoginCheck.class})
+    @Email(message = "必须是一个邮箱地址",groups = {CreateUser.class,UserLoginCheck.class})
     @ApiModelProperty(name = "email",value = "用户邮件",dataType = "String",required = false,example = "123456@qq.com")
     private String email;
     @ApiModelProperty(name = "salt",value = "盐",dataType = "String",required = false,example = "fdsfds643434")

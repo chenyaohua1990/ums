@@ -57,7 +57,9 @@ public class ShiroConfig {
         filterMap.put("/ums/js/**", "anon");
         filterMap.put("/ums/img/**", "anon");
         filterMap.put("/ums/user/login", "anon");
-        filterMap.put("/**", "user");
+        filterMap.put("/ums/lookup/lookup", "anon");
+        filterMap.put("/ums/languageCode/i18n", "anon");
+        filterMap.put("/**", "authc");
         //设置权限管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);

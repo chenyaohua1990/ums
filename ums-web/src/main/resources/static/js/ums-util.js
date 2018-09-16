@@ -49,7 +49,7 @@ function ums(){
      * 初始化页面加载参数
      */
     this.init=function(){
-
+        debugger;
         this.userAllAuthorize();
         /**
          * 权限扫描
@@ -58,7 +58,7 @@ function ums(){
             $("[shiroPermission]").each(function (x,sl) {
                 var $sl=$(el);
                 var key=$sl.attr("shiroPermission");
-                if(sessionStorage.getItem(key)){
+                if(!sessionStorage.getItem(key)){
                     $sl.addClass("text-hide");
                 }
             })
@@ -72,9 +72,9 @@ function ums(){
                 var $sl=$(el);
                 var key=$sl.attr("i18n");
                 if($sl.tagName="INPUT"){
-                    $sl.val(localStorage.getItem(key));
+                    $sl.val(localStorage.getItem(key) || key);
                 }else {
-                    $sl.html(localStorage.getItem(key));
+                    $sl.html(localStorage.getItem(key) || key);
                 }
             })
         },500);
@@ -157,46 +157,116 @@ function ums(){
         var split = pathname.split("/");
         var s =href+'/'+split[1]+"/";
         return  s ;
-    }
-    this.lookup=function(){
-
-    }
+    };
 
     this.i18nAllParam=function () {
         $.ajax({
-            url:this.basePath()+"i18n",
+            url:this.basePath()+"languageCode/i18n",
             async:true,
             type:'GET',
             success:function(req){
-                if(req && req.length>0){
-                    req.forEach(function (t, number) {
-                        localStorage.setItem(t.key,t.value);
-                    })
+                if(req && req.status===0){
+                    for(var i=0;i<req.data.length;i++){
+                        localStorage.setItem(req.data[i].key,req.data[i].value);
+                    }
                 }
             }
         })
-    }
+    };
     /**
      * 获取国际化参数
      * @param key
      */
     this.i18n=function(key){
         return localStorage.getItem(key);
-    }
+    };
+    /**
+     * 获取lookup参数
+     * @param key
+     */
+    this.lookup=function(lookupCode){
+        var look=localStorage.getItem(lookupCode);
+        if(!look){
+            $.ajax({
+                url:this.basePath()+'lookup/lookup',
+                data:{lookupCode:lookupCode},
+                async:false,
+                complete:function (req,status) {
+                    debugger
+                    var resp= req.responseJSON;
+                    if(status==='success' && resp){
+                        if(resp && resp.status===0){
+                            var data=JSON.stringify(resp.data);
+                            localStorage.setItem(lookupCode,data);
+                            look=data;
+                        }
+                    }else {
+                        console.error("response"+JSON.stringify(resp)+";status:"+status);
+                    }
+                }
+            });
+        }
+        return JSON.parse(look);
+    };
+
     /**
      * 检查shiro授权
      */
     this.checkShiroAuthorize=function () {
-
+        //TODO
         return false;
-    }
+    };
     /**
      * 获取用户全部权限
      */
     this.userAllAuthorize=function () {
+        //TODO
+    };
 
+    this.getCookie=function (key) {
+        var cookie = document.cookie;
+        if(cookie){
+            var split = cookie.split(";");
+            for(var i=0;i<split.length;i++){
+                var split2 = split[i];
+                if(split2){
+                    var split3 = split2.split("=");
+                    if(split3[0]===key){
+                        return split3[1];
+                    }
+                }
+            }
+        }
+        return null;
     }
-
+    /**
+     * 新增和修改cookie
+     * @param key
+     * @param value
+     * @returns {boolean}
+     */
+    this.setCookie=function (key,value) {
+        if(key){
+            var cookie = document.cookie;
+            document.cookie="{0}={1}".format(key,value);
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 删除cookie
+     * @param key
+     * @param value
+     * @returns {boolean}
+     */
+    this.delCookie=function (key) {
+        if(key){
+            var gmt=new Date(new Date().getTime()-30).toISOString();
+            document.cookie="{0}={1};Expires={2}".format(key,"",gmt);
+            return true;
+        }
+        return false;
+    }
 };
 
 

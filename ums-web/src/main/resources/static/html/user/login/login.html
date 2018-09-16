@@ -10,14 +10,21 @@
 <body>
     <div    class="container">
         <div class="card">
-            <div class="card-header">用户登录</div>
+            <div class="card-header">
+                <span>用户登录</span>
+                <div    class="dropdown">
+                    <button class="btn btn-primary  dropdown-toggle" data-toggle="dropdown"></button>
+                    <div    id="login-languageType" class="dropdown-menu">
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
                 <form id="user-login-form" action="" class="form">
                     <div class="form-group  form-inline">
-                        <label  for="login-name">用户名</label>
-                        <input  id="login-name" class="form-control" type="text" name="name" max="20" >
+                        <label  for="login-email">Email</label>
+                        <input  id="login-email" class="form-control" type="text" name="email" max="40" >
                     </div>
-                    <div id="user-login-name-check" class="alert alert-danger text-hide"></div>
+                    <div id="user-login-email-check" class="alert alert-danger text-hide"></div>
                     <div class="form-group  form-inline">
                         <label  for="login-password">密码</label>
                         <input  id="login-password" class="form-control" type="password" name="password" max="20">
@@ -33,6 +40,7 @@
     </div>
 </body>
 <script src="../../../js/jquery-3.3.1.js"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
 <script src="../../../js/bootstrap.js"></script>
 <script src="../../../js/ums-util.js"></script>
 <script src="../../../js/user/login.js"></script>

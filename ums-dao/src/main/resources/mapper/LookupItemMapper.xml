@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cyh.ums.dao.LookupItemMapper" >
+  <resultMap id="BaseResultMap" type="com.cyh.ums.domain.LookupItem" >
+    <id column="lookup_item_id" property="lookupItemId" jdbcType="BIGINT" />
+    <result column="lookup_id" property="lookupId" jdbcType="BIGINT" />
+    <result column="lookup_item_code" property="lookupItemCode" jdbcType="VARCHAR" />
+    <result column="lookup_item_name" property="lookupItemName" jdbcType="VARCHAR" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.cyh.ums.domain.LookupItem" extends="BaseResultMap" >
+    <result column="describe_info" property="describeInfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    lookup_item_id, lookup_id, lookup_item_code, lookup_item_name, language, version, 
+    create_date, update_date
+  </sql>
+  <sql id="Blob_Column_List" >
+    describe_info
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from lookup_item
+    where lookup_item_id = #{lookupItemId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from lookup_item
+    where lookup_item_id = #{lookupItemId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.cyh.ums.domain.LookupItem" >
+    insert into lookup_item (lookup_item_id, lookup_id, lookup_item_code, 
+      lookup_item_name, language, version, 
+      create_date, update_date, describe_info
+      )
+    values (#{lookupItemId,jdbcType=BIGINT}, #{lookupId,jdbcType=BIGINT}, #{lookupItemCode,jdbcType=VARCHAR}, 
+      #{lookupItemName,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{describeInfo,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cyh.ums.domain.LookupItem" >
+    insert into lookup_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="lookupItemId != null" >
+        lookup_item_id,
+      </if>
+      <if test="lookupId != null" >
+        lookup_id,
+      </if>
+      <if test="lookupItemCode != null" >
+        lookup_item_code,
+      </if>
+      <if test="lookupItemName != null" >
+        lookup_item_name,
+      </if>
+      <if test="language != null" >
+        language,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="describeInfo != null" >
+        describe_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="lookupItemId != null" >
+        #{lookupItemId,jdbcType=BIGINT},
+      </if>
+      <if test="lookupId != null" >
+        #{lookupId,jdbcType=BIGINT},
+      </if>
+      <if test="lookupItemCode != null" >
+        #{lookupItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="lookupItemName != null" >
+        #{lookupItemName,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describeInfo != null" >
+        #{describeInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cyh.ums.domain.LookupItem" >
+    update lookup_item
+    <set >
+      <if test="lookupId != null" >
+        lookup_id = #{lookupId,jdbcType=BIGINT},
+      </if>
+      <if test="lookupItemCode != null" >
+        lookup_item_code = #{lookupItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="lookupItemName != null" >
+        lookup_item_name = #{lookupItemName,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        language = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describeInfo != null" >
+        describe_info = #{describeInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where lookup_item_id = #{lookupItemId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cyh.ums.domain.LookupItem" >
+    update lookup_item
+    set lookup_id = #{lookupId,jdbcType=BIGINT},
+      lookup_item_code = #{lookupItemCode,jdbcType=VARCHAR},
+      lookup_item_name = #{lookupItemName,jdbcType=VARCHAR},
+      language = #{language,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      describe_info = #{describeInfo,jdbcType=LONGVARCHAR}
+    where lookup_item_id = #{lookupItemId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cyh.ums.domain.LookupItem" >
+    update lookup_item
+    set lookup_id = #{lookupId,jdbcType=BIGINT},
+      lookup_item_code = #{lookupItemCode,jdbcType=VARCHAR},
+      lookup_item_name = #{lookupItemName,jdbcType=VARCHAR},
+      language = #{language,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where lookup_item_id = #{lookupItemId,jdbcType=BIGINT}
+  </update>
+</mapper>
