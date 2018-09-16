@@ -14,8 +14,8 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
         SimpleAuthenticationInfo sinfo = (SimpleAuthenticationInfo)info;
         String salt = new String(sinfo.getCredentialsSalt().getBytes());
         String inputCredential = MD5Utils.encode(String.valueOf(autoken.getPassword())+ salt );
-        String accountCredentials = String.valueOf(getCredentials(info));
-        boolean match = equals(inputCredential,accountCredentials);
+      //  String accountCredentials = String.valueOf(getCredentials(info));
+        boolean match = equals(inputCredential,String.valueOf(sinfo.getCredentials()));
         return match;
     }
 }

@@ -70,8 +70,4 @@ public class MD5Utils {
         return new String(resultCharArray);
     }
 
-
-    public static void main(String arg[]){
-        System.out.println(encode(1111111+"5993390760460275053"));
-    }
 }

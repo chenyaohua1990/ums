@@ -40,11 +40,9 @@ public class ScanPortAnntation implements BeanPostProcessor {
                 continue;
             }
             String[] value = annotation1[0].value();
-
             RequestMethod[] method1 = annotation1[0].method();
             String sp="";
             if (!ObjectUtils.isEmpty(method1)) {
-
                 for (RequestMethod requestMethod : method1) {
                     sp+=requestMethod.name()+",";
                 }
@@ -58,11 +56,6 @@ public class ScanPortAnntation implements BeanPostProcessor {
 
             System.out.println("路径名："+(ObjectUtils.isEmpty(value1)?"":value1[0])+(ObjectUtils.isEmpty(value)?"":value[0])+"请求方式："+sp.replaceAll(",$",""));
         }
-
-      /*  if(annotation!=null){
-            System.out.println(annotation.code()+":"+annotation.name()+":"+annotation.describe());
-        }*/
-
         return bean;
     }
 }

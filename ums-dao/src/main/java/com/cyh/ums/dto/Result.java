@@ -3,8 +3,6 @@ package com.cyh.ums.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.HashMap;
-
 @ApiModel(value = "响应前端结果集类")
 public class Result<T>{
     @ApiModelProperty(name="status",value="响应状态(0:成功，默认成功)",dataType = "Integer",example = "0",required = true)

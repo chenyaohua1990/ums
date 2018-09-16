@@ -1,0 +1,15 @@
+.card{
+    width:400px;
+    margin-top:20%;
+    margin-left:30%;
+}
+#login-password{
+    position: relative;
+    left: 15px;
+}
+.alert-danger{
+    padding: 0px;
+    width:200px;
+    position: relative;
+    left:48px;
+}
