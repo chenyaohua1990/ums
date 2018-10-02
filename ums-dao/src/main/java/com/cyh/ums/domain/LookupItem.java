@@ -1,8 +1,13 @@
 package com.cyh.ums.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class LookupItem {
+/**
+ * @author CYH
+ */
+public class LookupItem implements Serializable {
+    private static final long serialVersionUID = 3825926741568073198L;
     private Long lookupItemId;
 
     private Long lookupId;

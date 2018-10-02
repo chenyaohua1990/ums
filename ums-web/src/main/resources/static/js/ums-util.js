@@ -49,14 +49,13 @@ function ums(){
      * 初始化页面加载参数
      */
     this.init=function(){
-        debugger;
         this.userAllAuthorize();
         /**
          * 权限扫描
          */
         setTimeout(function () {
             $("[shiroPermission]").each(function (x,sl) {
-                var $sl=$(el);
+                var $sl=$(sl);
                 var key=$sl.attr("shiroPermission");
                 if(!sessionStorage.getItem(key)){
                     $sl.addClass("text-hide");
@@ -69,9 +68,9 @@ function ums(){
          */
         setTimeout(function () {
             $("[i18n]").each(function (x,sl) {
-                var $sl=$(el);
+                var $sl=$(sl);
                 var key=$sl.attr("i18n");
-                if($sl.tagName="INPUT"){
+                if($sl.is("INPUT")){
                     $sl.val(localStorage.getItem(key) || key);
                 }else {
                     $sl.html(localStorage.getItem(key) || key);
@@ -167,7 +166,7 @@ function ums(){
             success:function(req){
                 if(req && req.status===0){
                     for(var i=0;i<req.data.length;i++){
-                        localStorage.setItem(req.data[i].key,req.data[i].value);
+                        localStorage.setItem(req.data[i].code,req.data[i].value);
                     }
                 }
             }

@@ -19,5 +19,5 @@ public interface LanguageCodeMapper {
 
     int updateByPrimaryKey(LanguageCode record);
 
-    List<LanguageCode> list();
+    List<LanguageCode> list(String languageType);
 }

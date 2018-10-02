@@ -12,4 +12,8 @@ public interface Constant {
      * 请求失败
      */
     Integer FAIL=1;
+    /**
+     *
+     */
+    String LANGUAGE_TYPE = "LANGUAGE_TYPE";
 }

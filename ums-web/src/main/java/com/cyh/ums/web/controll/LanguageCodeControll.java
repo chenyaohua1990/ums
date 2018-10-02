@@ -5,10 +5,7 @@ import com.cyh.ums.dto.Result;
 import com.cyh.ums.serviceI.LanguageCodeService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,9 +17,12 @@ public class LanguageCodeControll {
 
     @GetMapping(value = "i18n")
     @ApiOperation(value = "获取国际化数据",tags = {"国际化模块"})
-    public Result<List<LanguageCode>> list(){
-        List<LanguageCode> list= LanguageCodeService.list();
-        return null;
+    public Result<List<LanguageCode>> list(@CookieValue(value = "languageType",required = false) Integer languageType){
+        System.out.println("语言类型"+languageType);
+        Result<List<LanguageCode>> listResult=new Result<>();
+        List<LanguageCode> list= LanguageCodeService.list(languageType);
+        listResult.setData(list);
+        return  listResult;
     }
 
 }

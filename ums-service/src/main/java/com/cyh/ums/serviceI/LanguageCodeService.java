@@ -8,6 +8,7 @@ public interface LanguageCodeService {
     /**
      * 获取全部数据
      * @return
+     * @param languageType
      */
-    List<LanguageCode> list();
+    List<LanguageCode> list(Integer languageType);
 }

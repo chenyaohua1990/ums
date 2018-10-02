@@ -21,4 +21,5 @@ public interface LookupMapper {
     int updateByPrimaryKey(Lookup record);
 
     List<LookupItem> findLookupItemBylookupCode(String lookupCode);
+
 }
